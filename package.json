@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-live-server": "0.0.31",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-uglify": "^3.0.0",
+    "jquery": "^3.2.1",
+    "live-server": "^1.2.0"
+  }
+}
