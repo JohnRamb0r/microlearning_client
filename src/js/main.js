@@ -1,12 +1,17 @@
 jQuery(document).ready(function($) {
+  "use strict";
+  //init();
 
-  $("add").click(function() {
+
+  $("#add").click(function() {
+
+    ajaxFunctions.showAllLerneinheit();
     var image = new Image();
     image.src = 'data:image/png;base64,iVBORw0K...';
     document.body.appendChild(image);
   });
 
-  getAllLerneinheitenByLehrendeID(2);
+  ajaxFunctions.getAllLerneinheitenByLehrendeId(2);
 
   $(".table").delegate(".changeLerneinheit", "click", function(event) {
     var id = $(this).attr("data-lerneinheit-id");
@@ -14,147 +19,56 @@ jQuery(document).ready(function($) {
     console.log(event);
   });
 
-  $("#addLerneinheitCancelbtn").click(function() {
-    $(".modal-dialog .addLerneinheitAddAbschnittContainer").remove();
+  $(".table").delegate(".deleteLerneinheit", "click",function(event){
+    var id = $(this).attr("data-lerneinheit-id");
+    console.log(id);
+
+    //ajaxFunctions.deleteLerneinheitById(id);
+    guiFunctions.deleteElementById("deleteLerneinheitRow_"+id);
+
+    event.preventDefault();
   });
+
+  $("#addLerneinheitCancelbtn").click(function() {
+    guiFunctions.resetToBeginning();
+  });
+  $(".close").click(function() {
+    guiFunctions.resetToBeginning();
+  });
+
 
   $("#addLerneinheitAddAbschnittbtn").click(function() {
-    addAbschnittToElement(".addLerneinheitAddAbschnittForm", ".modal-body");
+    guiFunctions.addAbschnittToElement(".addLerneinheitAddAbschnittForm", ".modal-body");
     event.preventDefault();
   });
+
+  $("#addLerneinheitAddFragebtn").click(function(){
+    guiFunctions.addAbschnittToElement(".addLerneinheitAddFrageForm", ".modal-body");
+    guiFunctions.getFragetyp();
+
+    event.preventDefault();
+  });
+
+
 
   $("body").on("click", ".addLerneinheitDeleteAbschnittbtn", function() {
-    $(this).parents(".addLerneinheitAddAbschnittContainer").remove();
-  });
+    guiFunctions.deleteElementByElement($(this).parents(".addLerneinheitAddAbschnittContainer"));
 
-  $("form").delegate(".addLerneinheitDeleteAbschnittbtn", "click", function(event) {
-
-    //$(this).closet("form").remove();
-    alert("asdf");
-    event.preventDefault();
+    //$(this).parents(".addLerneinheitAddAbschnittContainer").remove();
   });
 
 
 
-  function addAbschnittToElement(htmlElement, appendToElement) {
+  $("body").on("click", ".addLerneinheitDeleteFragebtn", function() {
+    guiFunctions.deleteElementByElement($(this).parents(".addLerneinheitAddFrageContainer"));
 
-    var html = $(htmlElement).html();
-    $(appendToElement).append(html);
-  }
-
-
-  function getAllLerneinheitenByLehrendeID(id) {
-
-    $.getJSON("http://localhost:8080/Lerneinheit/lehrende/" + id, function(data) {
-      var items = [];
-
-      $("#lehrender").append(data[0].lehrende.benutzername);
-
-      $.each(data, function(key, val) {
-        $(".table").append("<tr><th scope='row'>" + val.id + "</th>" +
-          "<td>" + val.id + "</td>" + "<td>" + val.titel + "</td>" + "<td>" +
-          val.beschreibung + "</td>" + "<td><button data-lerneinheit-id='" + val.id + "' class='changeLerneinheit'>ÄNDERN</button></tr>");
-
-      });
-      console.log(data);
-      console.log(items);
+    //$(this).parents(".addLerneinheitAddAbschnittContainer").remove();
+  });
 
 
 
-      // $("<ul/>", {
-      //   "class": "my-new-list",
-      //   html: items.join("")
-      // }).appendTo("body");
-    });
-  }
 
 
 
-  function searchAjax() {
 
-    // var data = {}
-    // data["query"] = $("#query").val();
-    //
-    // $.ajax({
-    // 	type : "GET",
-    // 	contentType : "application/json",
-    // 	url : "http://localhost:8080/Lerneinheit/",
-    // 	data : JSON.stringify(data),
-    // 	dataType : 'json',
-    // 	timeout : 100000,
-    // 	success : function(data) {
-    // 		console.log("SUCCESS: ", data);
-    //
-    // 	},
-    // 	error : function(e) {
-    // 		console.log("ERROR: ", e);
-    //
-    // 	},
-    // 	done : function(e) {
-    // 		console.log("DONE");
-    // 	}
-    // });
-
-    // show all
-    $.getJSON("http://localhost:8080/Lerneinheit", function(data) {
-      var items = [];
-
-      $.each(data, function(key, val) {
-        items.push("<li id='" + key + "'>" + val + "</li>");
-      });
-      //console.log(data);
-
-      $("<ul/>", {
-        "class": "my-new-list",
-        html: items.join("")
-      }).appendTo("body");
-    });
-
-    dataJson = {
-      "titel": "asdf",
-      "beschreibung": "asdf",
-      "abschnitte": [{
-          "inhalt": "Es handelt sich um einen ...",
-          "reihenfolge": 2,
-          "media": null
-        },
-        {
-          "inhalt": "penis handelt sich um einen ...",
-          "reihenfolge": 3,
-          "media": null
-        }
-      ],
-      "lehrende_id": 1
-    };
-
-    console.log(JSON.stringify(dataJson));
-
-    // EDIT
-    $.ajax({
-      type: 'post',
-      url: 'http://localhost:8080/Lerneinheit/edit/1',
-      data: JSON.stringify(dataJson),
-      contentType: "application/json; charset=utf-8",
-      traditional: true,
-      success: function(data) {
-        console.log("done");
-      },
-      error: function(jqXhr, textStatus, errorThrown) {
-        console.log(errorThrown);
-        console.log("errorThrown");
-      }
-    });
-
-    // DELETE
-    // $.ajax({
-    //     url: 'http://localhost:8080/Lerneinheit/delete/1',
-    //     type: 'DELETE',
-    //     success: function(result) {
-    //         // Do something with the result
-    //     }
-    // });
-
-
-
-  }
 });
