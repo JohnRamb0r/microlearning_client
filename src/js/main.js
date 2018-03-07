@@ -2,16 +2,32 @@ jQuery(document).ready(function($) {
   "use strict";
   //init();
 
+  var model = modelLerneinheit;
+  var view = guiFunctions;
 
-  $("#add").click(function() {
+  model.getAllLerneinheitenByLehrendeIdAndBuild(2);
 
-    ajaxFunctions.showAllLerneinheit();
-    var image = new Image();
-    image.src = 'data:image/png;base64,iVBORw0K...';
-    document.body.appendChild(image);
+
+
+
+  $("#addLerneinheitSavebtn").click(function() {
+    alert("FICK1");
+    var x = $(".form-group > .form-control");
+    console.log(x);
+    $.each(x, function(i, field){
+
+        console.log(i + " " +field.name + ":" + field.value + " " + field.id);
+    });
+
+  //  model.generateLerneinheit();
+    // ajaxFunctions.showAllLerneinheit();
+    // var image = new Image();
+    // image.src = 'data:image/png;base64,iVBORw0K...';
+    // document.body.appendChild(image);
+
   });
 
-  ajaxFunctions.getAllLerneinheitenByLehrendeId(2);
+
 
   $(".table").delegate(".changeLerneinheit", "click", function(event) {
     var id = $(this).attr("data-lerneinheit-id");
@@ -43,9 +59,14 @@ jQuery(document).ready(function($) {
   });
 
   $("#addLerneinheitAddFragebtn").click(function(){
-    guiFunctions.addAbschnittToElement(".addLerneinheitAddFrageForm", ".modal-body");
-    guiFunctions.getFragetyp();
 
+    guiFunctions.addAbschnittToElement(".addLerneinheitAddFrageForm", ".modal-body");
+    var frageTyp = guiFunctions.getFragetyp();
+
+    if(stringUtilFunctions.strcmp(frageTyp, "erklaerbild")){
+      guiFunctions.setLerneinheitFrageDataInputVisible();
+    }
+    frageTyp = undefined;
     event.preventDefault();
   });
 

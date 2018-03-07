@@ -1,5 +1,10 @@
-var ajaxFunctions = {
+var modelLerneinheit = {
+  generateLerneinheit: function(){
 
+    var data = $(".modal-body").serializeFormJSON();
+    console.log(data);
+
+  },
   editLerneinheitById: function(id) {
     $.ajax({
       type: 'post',
@@ -16,7 +21,9 @@ var ajaxFunctions = {
       }
     });
   },
-  getAllLerneinheitenByLehrendeId: function(id) {
+  //Unschön gelöst, da das data-Object verloren geht.
+  //erhält ID des Lehrenden. Ruf die Daten des Lehrenden ab und ruft View-Funktion auf
+  getAllLerneinheitenByLehrendeIdAndBuild: function(id) {
 
     $.getJSON("http://localhost:8080/Lerneinheit/lehrende/" + id, function(data) {
 
@@ -28,32 +35,31 @@ var ajaxFunctions = {
 
       //$("#lehrender").append(data[0].lehrende.benutzername);
 
-
-
-      initLerneinheitTable(data);
+      guiFunctions.generateLerneinheitTable(data);
+      guiFunctions.addAbschnittToElement(data[0].lehrende.benutzername, "#lehrender")
 
       return data;
     });
   },
   showAllLerneinheit: function() {
     $.ajax({
-    	type : "GET",
-    	contentType : "application/json",
-    	url : "http://localhost:8080/Lerneinheit/",
-    	data : JSON.stringify(data),
-    	dataType : 'json',
-    	timeout : 100000,
-    	success : function(data) {
-    		console.log("SUCCESS: ", data);
+      type : "GET",
+      contentType : "application/json",
+      url : "http://localhost:8080/Lerneinheit/",
+      data : JSON.stringify(data),
+      dataType : 'json',
+      timeout : 100000,
+      success : function(data) {
+        console.log("SUCCESS: ", data);
 
-    	},
-    	error : function(e) {
-    		console.log("ERROR: ", e);
+      },
+      error : function(e) {
+        console.log("ERROR: ", e);
 
-    	},
-    	done : function(e) {
-    		console.log("DONE");
-    	}
+      },
+      done : function(e) {
+        console.log("DONE");
+      }
     });
   },
   deleteLerneinheitById: function(id) {
@@ -65,6 +71,4 @@ var ajaxFunctions = {
       }
     });
   }
-
-
 };
