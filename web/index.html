@@ -24,7 +24,7 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
+
             <th scope="col">ID</th>
             <th scope="col">TITEL</th>
             <th scope="col">BESCHREIBUNG</th>
@@ -69,14 +69,14 @@
                        <span aria-hidden="true">&times;</span>
                        <span class="sr-only">Close</span>
                 </button>
-          <h4 class="modal-title" id="addLerneinheitModalLabel">
+          <h3 class="modal-title" id="addLerneinheitModalLabel">
                     Lerneinheit hinzufügen
-          </h4>
+          </h3>
         </div>
 
         <!-- Modal Body -->
         <div class="modal-body">
-
+          <div>
           <form role="form">
             <div class="form-group">
               <label for="addLerneinheitTitelInput">Lerneinheittitel</label>
@@ -92,17 +92,30 @@
 
           <hr class="divider">
         </div>
+        </div>
 
         <!-- Modal Footer -->
         <div class="modal-footer">
-          <button id="addLerneinheitAddAbschnittbtn" class="btn btn-default">Abschnitt hinzufügen</button>
-          <button id="addLerneinheitAddFragebtn" class="btn btn-default">Frage hinzufügen</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">
-            Abbrechen
-          </button>
-          <button type="button" class="btn btn-primary">
-            Speichern
-          </button>
+          <div class="modal-footer-radio align-middle reveal-modal">
+            <b>Fragetypen:</b>
+            <label class="radio-inline"><input type="radio" name="optradio" value="multiplechoice" checked>Multiple Choice</label>
+            <label class="radio-inline"><input type="radio" name="optradio" value="lueckentext">Lückentext</label>
+            <label class="radio-inline"><input type="radio" name="optradio" value="erklaerbild">Erklärbild</label>
+          </div>
+          <div class="modal-footer-addButtons">
+            <button id="addLerneinheitAddAbschnittbtn" class="btn btn-default">Abschnitt hinzufügen</button>
+            <button id="addLerneinheitAddFragebtn" class="btn btn-default">Frage hinzufügen</button>
+          </div>
+          <hr class="divider">
+          <div>
+            <button type="button" id="addLerneinheitCancelbtn" class="btn btn-warning" data-dismiss="modal">
+              Abbrechen
+            </button>
+            <button type="button" id="addLerneinheitSavebtn" class="btn btn-primary">
+              Speichern
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -111,19 +124,61 @@
 
   <form role="form" class="addLerneinheitAddAbschnittForm hide">
     <div class="addLerneinheitAddAbschnittContainer">
-
+      <div>
 
       <div class="form-group">
-        <label for="addLerneinheitTitelInput">Abschnitttitel </label><button class="addLerneinheitDeleteAbschnittbtn btn btn-default">x</button>
-        <input type="text" class="form-control" id="addLerneinheitTitelInput" placeholder="Titel der Lerneinheit eingeben" />
+        <label for="addLerneinheitTitelInput"><h4><b><span class="count"></span># - Abschnitttitel </b></h4> </label><button class="addLerneinheitDeleteAbschnittbtn btn btn-default">x</button>
+        <input type="text" class="form-control" class="addLerneinheitTitelInput" placeholder="Titel der Lerneinheit eingeben" />
       </div>
       <div class="form-group">
         <label for="addLerneinheitBeschreibungInput">Abschnittbeschreibung</label>
-        <textarea class="form-control" id="addLerneinheitBeschreibungInput" placeholder="Beschreibung der Lerneinheit eingeben"></textarea>
+        <textarea rows="10" class="form-control addLerneinheitBeschreibungInput" placeholder="Beschreibung der Lerneinheit eingeben"></textarea>
+      </div>
+      <div class="form-group">
+       <label for="exampleInputFile">Bildauswahl</label>
+       <input type="file" class="form-control-file addLerneinheitDataInput" aria-describedby="fileHelp">
+       <small class="fileHelp" class="form-text text-muted">Wählen sie - falls benötigt - ein Bild aus, um es diesem Abschnitt hinzuzufügen. Geben Sie im Abschnittbeschreibung [image] an, um es zu platzieren.</small>
+     </div>
+
+
+    <hr class="divider">
+    </div>
+  </div>
+  </form>
+
+  <form role="form" class="addLerneinheitAddFrageForm hide">
+    <div class="addLerneinheitAddFrageContainer">
+      <div>
+
+      <div class="form-group">
+        <label for="addLerneinheitFragestellungInput"><h4><b><span class="count"></span># - Fragestellung</b></h4> </label><button class="addLerneinheitDeleteFragebtn btn btn-default">x</button>
+        <input type="text" class="form-control addLerneinheitFragestellungInput" placeholder="Fragestellung eingeben" />
+      </div>
+      <div class="form-group">
+        <label for="addLerneinheitInformationstextInput">Zusatzinformationen</label>
+        <textarea rows="10" class="form-control addLerneinheitInformationstextInput" placeholder="Zusatzinformationen für die Frage eingeben"></textarea>
+      </div>
+      <div class="form-group addLerneinheitFragestellungInputAntworten-form-group hide">
+       <label for="addLerneinheitFragestellungInputAntworten">Antworten eingeben</label>
+       <input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" />
+       <input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" />
+       <input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" />
+       <input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" />
+      </div>
+      <div class="form-group addLerneinheitFragestellungTextarea-form-group hide">
+       <label for="addLerneinheitFragestellungTextarea">Antworten eingeben</label>
+       <textarea rows="10" class="form-control addLerneinheitFragestellungTextarea" placeholder="Den Lückentext hier eingeben. Die auszublendenen Wörter mit [[]] umklammern."></textarea>
+
+      </div>
+      <div class="form-group addLerneinheitFragestellungDataInput-form-group hide">
+       <label for="addLerneinheitFragestellungDataInput">Bildauswahl</label>
+       <input type="file" class="form-control-file addLerneinheitFragestellungDataInput" aria-describedby="fileHelp">
+       <small class="fileHelp" class="form-text text-muted">Wählen sie - falls benötigt - ein Bild aus, um es diesem Abschnitt hinzuzufügen.</small>
       </div>
 
-    </div>
     <hr class="divider">
+    </div>
+  </div>
   </form>
 
   <script src="dist/js/script.js"></script>

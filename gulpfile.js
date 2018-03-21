@@ -2,9 +2,12 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   concat = require('gulp-concat'),
   minifyCSS = require('gulp-minify-css'),
+  gulpDi = require('gulp-dependency-install'),
   gls = require('gulp-live-server');
 
-
+gulp.task('npm-install', function () {
+     return gulpDi.install('C:/Users/Fabian/Documents/GitHub/microlearning_client');
+ });
 
 gulp.task('serve', function() {
 

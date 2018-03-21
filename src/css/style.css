@@ -1,6 +1,6 @@
-.addLerneinheitDeleteAbschnittbtn{
+.addLerneinheitDeleteAbschnittbtn, .addLerneinheitDeleteFragebtn{
   margin-left: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 .btn-circle {
@@ -27,4 +27,15 @@
   font-size: 24px;
   line-height: 1.33;
   border-radius: 35px;
+}
+
+.modal-footer-radio, .modal-footer-addButtons{
+  margin-bottom: 15px;
+  text-align:center;
+}
+
+body {counter-reset:section;}
+.count:before{
+  counter-increment:section;
+  content:counter(section);
 }
