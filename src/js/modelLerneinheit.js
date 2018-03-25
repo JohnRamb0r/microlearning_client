@@ -10,6 +10,9 @@ var modelLerneinheit = {
     console.log(data[0].serializeFormJSON());
 
   },
+  generateAntworten: function(){
+
+  },
   //Wandelt ein File in Base64 um.
   //Paramater: file, callback Funktion zur weiteren Verarbeitung
   getBase64: function(file, callback) {

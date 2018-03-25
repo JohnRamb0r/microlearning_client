@@ -7,9 +7,9 @@ jQuery(document).ready(function($) {
   var model = modelLerneinheit;
   var view = guiFunctions;
 
+//  modelLerneinheit.showAllLerneinheit();
+
   view.init(2)
-
-
 
   //Erstellung der Lerneinheit - vorübergehend im Controller, wird noch in das Model übertragen.
   //Noch nicht fertig programmiert, es müssen alle Fragetypen umgesetzt werden.
@@ -23,7 +23,11 @@ jQuery(document).ready(function($) {
     lerneinheit.titel = $("#addLerneinheitTitelInput").val();
     lerneinheit.beschreibung = $("#addLerneinheitBeschreibungInput").val();
     lerneinheit.abschnitte = [];
-    lerneinheit.frage = [];
+    lerneinheit.erklaerBild = [];
+    lerneinheit.lueckentext = [];
+    lerneinheit.multiplechoice = [];
+
+    var reihenfolge = 1;
 
     $.each(data, function(i, field){
 
@@ -35,22 +39,43 @@ jQuery(document).ready(function($) {
 
         // Korrekt, wenn es eine Frage ist
         if($(this).is(".addLerneinheitAddFrageContainer")){
+          var fragetyp = view.getDataFragetyp($(this));
+
           console.log("FRAGE!")
           $.each(selector, function(i, field){
             // console.log(field);
             // console.log($(field).find(".addLerneinheitFragestellungInput").val());
 
-            var frage = new Object();
-            frage.name = $(field).find(".addLerneinheitFragestellungInput").val();
-            frage.beschreibung = $(field).find(".addLerneinheitInformationstextInput").val()
+            var $antworten = $(field).find(".addLerneinheitFragestellungInputAntworten-form-group");
+            view.getAntwortenFromAntwortInputs($antworten);
+            if(fragetyp=="erklaerbild"){
+              console.log(view.isNoDataSelectedInDataForm(field));
+              var erklaerBild = new Object();
+              erklaerBild.aufgabenstellung = $(field).find(".addLerneinheitFragestellungInput").val();
+              erklaerBild.ergaenzungstext = $(field).find(".addLerneinheitInformationstextInput").val();
+              erklaerBild.reihenfolge = reihenfolge;
+              //Erklärbilder werden mit einer schwierigkeit von 3 eingestuft. Selber
+              erklaerBild.schwierigkeit = 3;
 
-            if($(field).find(".addLerneinheitFragestellungDataInput").prop('files')[0]===undefined) return true;
 
-            model.getBase64($(field).find(".addLerneinheitFragestellungDataInput").prop('files')[0], function(result){
-              frage.bild = result;
-              lerneinheit.frage.push(frage);
-              console.log(frage);
-            });
+
+              if(!view.isNoDataSelectedInDataForm(field)){
+                model.getBase64($(field).find(".addLerneinheitFragestellungDataInput").prop('files')[0], function(result){
+                  var media = new Object();
+                  media.datei = result;
+
+                  //Für den Anfang sind diese Werte default gesetzt.
+                  media.typ = "Bild";
+                  media.dateiname = "";
+                  media.beschreibung = "";
+                  media.reihenfolge = -1;
+
+                  erklaerBild.bild = result;
+                  lerneinheit.erklaerBild.push(frage);
+                  console.log(frage);
+                });
+              }
+            }
           });
 
         }else{
@@ -63,7 +88,7 @@ jQuery(document).ready(function($) {
 
 
         // alert("asdf");
-
+        reihenfolge++;
          console.log(i + " " +field.name + ":" + field.value + " " + field.id);
     });
 
@@ -109,13 +134,18 @@ jQuery(document).ready(function($) {
   $("#addLerneinheitAddFragebtn").click(function(){
 
     guiFunctions.addAbschnittToElement(".addLerneinheitAddFrageForm", ".modal-body");
+    var $appendToElement = $(".addLerneinheitAddFrageContainer").eq(-2);
     var frageTyp = guiFunctions.getFragetyp();
 
     if(stringUtilFunctions.strcmp(frageTyp, "erklaerbild")){
+      guiFunctions.addDataAttributeToElement("data-fragetyp", "erklaerbild", $appendToElement);
+      guiFunctions.setLerneinheitFrageInputVisible();
       guiFunctions.setLerneinheitFrageDataInputVisible();
     }else if(stringUtilFunctions.strcmp(frageTyp, "multiplechoice")){
+      guiFunctions.addDataAttributeToElement("data-fragetyp", "multiplechoice", $appendToElement);
       guiFunctions.setLerneinheitFrageInputVisible();
     }else if(stringUtilFunctions.strcmp(frageTyp, "lueckentext")){
+      guiFunctions.addDataAttributeToElement("data-fragetyp", "lueckentext", $appendToElement);
       guiFunctions.setLerneinheitFrageTextareaVisible();
     }
     frageTyp = undefined;
