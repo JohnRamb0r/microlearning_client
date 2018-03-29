@@ -23,9 +23,9 @@ jQuery(document).ready(function($) {
     lerneinheit.titel = $("#addLerneinheitTitelInput").val();
     lerneinheit.beschreibung = $("#addLerneinheitBeschreibungInput").val();
     lerneinheit.abschnitte = [];
-    lerneinheit.erklaerBild = [];
-    lerneinheit.lueckentext = [];
-    lerneinheit.multiplechoice = [];
+    lerneinheit.erklaerBilder = [];
+    lerneinheit.lueckenTexte = [];
+    lerneinheit.multipleChoices = [];
 
     var reihenfolge = 1;
 
@@ -46,10 +46,9 @@ jQuery(document).ready(function($) {
             // console.log(field);
             // console.log($(field).find(".addLerneinheitFragestellungInput").val());
 
-            var $antworten = $(field).find(".addLerneinheitFragestellungInputAntworten-form-group");
-            view.getAntwortenFromAntwortInputs($antworten);
+
             if(fragetyp=="erklaerbild"){
-              console.log(view.isNoDataSelectedInDataForm(field));
+            //  console.log(view.isNoDataSelectedInDataForm(field));
               var erklaerBild = new Object();
               erklaerBild.aufgabenstellung = $(field).find(".addLerneinheitFragestellungInput").val();
               erklaerBild.ergaenzungstext = $(field).find(".addLerneinheitInformationstextInput").val();
@@ -57,39 +56,97 @@ jQuery(document).ready(function($) {
               //Erklärbilder werden mit einer schwierigkeit von 3 eingestuft. Selber
               erklaerBild.schwierigkeit = 3;
 
+              var $antworten = $(field).find(".addLerneinheitFragestellungInputAntworten-form-group");
+              erklaerBild.antworten = view.getAntwortenFromAntwortInputs($antworten);
 
-
-              if(!view.isNoDataSelectedInDataForm(field)){
-                model.getBase64($(field).find(".addLerneinheitFragestellungDataInput").prop('files')[0], function(result){
+              if(!view.isNoDataSelectedInDataForm(field, ".addLerneinheitFragestellungDataInput")){
+                var file = $(field).find(".addLerneinheitFragestellungDataInput").prop('files')[0];
+                model.getBase64(file, function(result){
                   var media = new Object();
                   media.datei = result;
 
                   //Für den Anfang sind diese Werte default gesetzt.
                   media.typ = "Bild";
-                  media.dateiname = "";
+                  media.dateiname = file.name;
                   media.beschreibung = "";
                   media.reihenfolge = -1;
 
-                  erklaerBild.bild = result;
-                  lerneinheit.erklaerBild.push(frage);
-                  console.log(frage);
+
+                  erklaerBild.media = media;
+                  lerneinheit.erklaerBilder.push(erklaerBild);
+
                 });
+              }else{
+                alert("BILD AUSWÄHLEN!!!");
               }
+            }else if(fragetyp=="multiplechoice"){
+              var multipleChoice = new Object();
+              multipleChoice.aufgabenstellung = $(field).find(".addLerneinheitFragestellungInput").val();
+              multipleChoice.ergaenzungstext = $(field).find(".addLerneinheitInformationstextInput").val();
+              multipleChoice.reihenfolge = reihenfolge;
+              //Erklärbilder werden mit einer schwierigkeit von 3 eingestuft. Selber
+              multipleChoice.schwierigkeit = 1;
+
+              var $antworten = $(field).find(".addLerneinheitFragestellungInputAntworten-form-group");
+              multipleChoice.antworten = view.getAntwortenFromAntwortInputs($antworten);
+
+              lerneinheit.multipleChoices.push(multipleChoice);
+
+
+            }else{
+              var lueckenText = new Object();
+              lueckenText.aufgabenstellung = $(field).find(".addLerneinheitFragestellungInput").val();
+              lueckenText.ergaenzungstext = $(field).find(".addLerneinheitInformationstextInput").val();
+              lueckenText.reihenfolge = reihenfolge;
+              //Erklärbilder werden mit einer schwierigkeit von 3 eingestuft. Selber
+              lueckenText.schwierigkeit = 2;
+              lueckenText.text = $(field).find(".addLerneinheitFragestellungTextarea").val();
+
+              lerneinheit.lueckenTexte.push(lueckenText);
+
             }
           });
 
         }else{
           console.log("ABSCHNITT!")
+          var abschnitt = new Object();
           $.each(selector, function(i, field){
-            console.log($(field).children());
-          });
+            console.log(field);
 
+            abschnitt.titel = $(field).find(".addLerneinheitTitelInput").val();
+            abschnitt.inhalt = $(field).find(".addLerneinheitBeschreibungInput").val();
+            abschnitt.reihenfolge = reihenfolge;
+
+            if(!view.isNoDataSelectedInDataForm(field, ".addLerneinheitAbschnittDataInput")){
+
+              var file = $(field).find(".addLerneinheitAbschnittDataInput").prop('files')[0];
+              model.getBase64(file, function(result){
+                console.log(abschnitt);
+                var media = new Object();
+                media.datei = result;
+
+                //Für den Anfang sind diese Werte default gesetzt.
+                media.typ = "Bild";
+                media.dateiname = file.name;
+                media.beschreibung = "";
+                media.reihenfolge = -1;
+
+
+                abschnitt.media = media;
+
+
+              });
+            }
+
+          });
+          lerneinheit.abschnitte.push(abschnitt);
+          console.log(lerneinheit);
         }
 
 
         // alert("asdf");
         reihenfolge++;
-         console.log(i + " " +field.name + ":" + field.value + " " + field.id);
+         //console.log(i + " " +field.name + ":" + field.value + " " + field.id);
     });
 
   //  model.generateLerneinheit();
@@ -97,7 +154,7 @@ jQuery(document).ready(function($) {
     // var image = new Image();
     // image.src = 'data:image/png;base64,iVBORw0K...';
     // document.body.appendChild(image);
-
+    console.log(lerneinheit.erklaerBild);
   });
 
 

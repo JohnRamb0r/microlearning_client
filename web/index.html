@@ -128,15 +128,15 @@
 
       <div class="form-group">
         <label for="addLerneinheitTitelInput"><h4><b><span class="count"></span># - Abschnitttitel </b></h4> </label><button class="addLerneinheitDeleteAbschnittbtn btn btn-default">x</button>
-        <input type="text" class="form-control" class="addLerneinheitTitelInput" placeholder="Titel der Lerneinheit eingeben" />
+        <input type="text" class="form-control addLerneinheitTitelInput" placeholder="Titel der Lerneinheit eingeben" />
       </div>
       <div class="form-group">
         <label for="addLerneinheitBeschreibungInput">Abschnittbeschreibung</label>
         <textarea rows="10" class="form-control addLerneinheitBeschreibungInput" placeholder="Beschreibung der Lerneinheit eingeben"></textarea>
       </div>
       <div class="form-group">
-       <label for="exampleInputFile">Bildauswahl</label>
-       <input type="file" class="form-control-file addLerneinheitDataInput" aria-describedby="fileHelp">
+       <label for="addLerneinheitAbschnittDataInput">Bildauswahl</label>
+       <input type="file" accept="image/*" class="form-control-file addLerneinheitAbschnittDataInput" aria-describedby="fileHelp">
        <small class="fileHelp" class="form-text text-muted">Wählen sie - falls benötigt - ein Bild aus, um es diesem Abschnitt hinzuzufügen. Geben Sie im Abschnittbeschreibung [image] an, um es zu platzieren.</small>
      </div>
 
@@ -160,10 +160,10 @@
       </div>
       <div class="form-group addLerneinheitFragestellungInputAntworten-form-group hide">
        <label for="addLerneinheitFragestellungInputAntworten">Antworten eingeben</label>
-       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><input type="checkbox"> wahr</div>
-       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><label><input type="checkbox"> wahr</label></div>
-       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><label><input type="checkbox"> wahr</label></div>
-       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><label><input type="checkbox"> wahr</label></div>
+       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><input class="addLerneinheitFragestellungInputAntwortenCheckbox" type="checkbox"> wahr</div>
+       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><input class="addLerneinheitFragestellungInputAntwortenCheckbox" type="checkbox"> wahr</div>
+       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><input class="addLerneinheitFragestellungInputAntwortenCheckbox" type="checkbox"> wahr</div>
+       <div><input type="text" class="form-control addLerneinheitFragestellungInputAntworten" placeholder="Antwort eingeben" /><input class="addLerneinheitFragestellungInputAntwortenCheckbox" type="checkbox"> wahr</div>
       </div>
       <div class="form-group addLerneinheitFragestellungTextarea-form-group hide">
        <label for="addLerneinheitFragestellungTextarea">Antworten eingeben</label>
@@ -172,7 +172,7 @@
       </div>
       <div class="form-group addLerneinheitFragestellungDataInput-form-group hide">
        <label for="addLerneinheitFragestellungDataInput">Bildauswahl</label>
-       <input type="file" class="form-control-file addLerneinheitFragestellungDataInput" aria-describedby="fileHelp">
+       <input type="file" accept="image/*" class="form-control-file addLerneinheitFragestellungDataInput" aria-describedby="fileHelp">
        <small class="fileHelp" class="form-text text-muted">Wählen sie - falls benötigt - ein Bild aus, um es diesem Abschnitt hinzuzufügen.</small>
       </div>
 

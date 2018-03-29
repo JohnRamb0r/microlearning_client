@@ -45,19 +45,35 @@ var guiFunctions = {
     getDataFragetyp: function($element){
       return $element.attr("data-fragetyp");
     },
-    isNoDataSelectedInDataForm: function(field){
-      return $(field).find(".addLerneinheitFragestellungDataInput").prop('files')[0]===undefined;
+    isNoDataSelectedInDataForm: function(field, classSelector){
+      return $(field).find(classSelector).prop('files')[0]===undefined;
     },
     getAntwortenFromAntwortInputs: function($antworten){
       var antworten = [];
       var antwort = new Object();
-      $.each($antworten.children(), function(i, field){
-        $.each($(field).children(), function(i, field){
-          console.log($(i));
+      var antwort = new Object();
+      antwort.isRichtig = undefined;
+      antwort.text = undefined;
 
+      $.each($antworten.children(), function(i, field){
+        $(field).children('input').each(function () {
+          if($(this).hasClass("addLerneinheitFragestellungInputAntwortenCheckbox")){
+            antwort.isRichtig = $(this).is(":checked");
+          }
+          else {
+            antwort.text = this.value;
+          }
+          //Beide haben einen Wert, ready zum Pushen und dann wird es zurückgesetzt.
+          if(typeof antwort.isRichtig !== "undefined" && typeof antwort.text !== "undefined"){
+            antworten.push(antwort);
+            antwort = new Object();
+          }
         });
+
         console.log(".....");
       });
+      return antworten;
+      console.log(antworten);
     },
     //Das Modalfenster wird auf die Ausgangssituation zurückgesetzt
     resetToBeginning: function () {
