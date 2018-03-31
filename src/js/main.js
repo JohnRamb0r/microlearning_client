@@ -4,6 +4,13 @@ jQuery(document).ready(function($) {
   "use strict";
   //init();
 
+  if(window.Prototype) {
+    delete Object.prototype.toJSON;
+    delete Array.prototype.toJSON;
+    delete Hash.prototype.toJSON;
+    delete String.prototype.toJSON;
+  }
+
   var model = modelLerneinheit;
   var view = guiFunctions;
 
@@ -17,15 +24,15 @@ jQuery(document).ready(function($) {
 
     var data = $(".modal-body").children();//.serializeFormJSON();
 
-    console.log(data);
+    //console.log(data);
 
-    var lerneinheit = new Object();
+    var lerneinheit = {};
     lerneinheit.titel = $("#addLerneinheitTitelInput").val();
     lerneinheit.beschreibung = $("#addLerneinheitBeschreibungInput").val();
-    lerneinheit.abschnitte = [];
-    lerneinheit.erklaerBilder = [];
-    lerneinheit.lueckenTexte = [];
-    lerneinheit.multipleChoices = [];
+    lerneinheit.abschnitte = new Array();
+    lerneinheit.erklaerBilder = new Array();
+    lerneinheit.lueckenTexte = new Array();
+    lerneinheit.multipleChoices = new Array();
 
     var reihenfolge = 1;
 
@@ -50,31 +57,31 @@ jQuery(document).ready(function($) {
             if(fragetyp=="erklaerbild"){
             //  console.log(view.isNoDataSelectedInDataForm(field));
               var erklaerBild = new Object();
-              erklaerBild.aufgabenstellung = $(field).find(".addLerneinheitFragestellungInput").val();
-              erklaerBild.ergaenzungstext = $(field).find(".addLerneinheitInformationstextInput").val();
-              erklaerBild.reihenfolge = reihenfolge;
+              erklaerBild["aufgabenstellung"] = $(field).find(".addLerneinheitFragestellungInput").val();
+              erklaerBild["ergaenzungstext"] = $(field).find(".addLerneinheitInformationstextInput").val();
+              erklaerBild["reihenfolge"] = reihenfolge;
               //Erklärbilder werden mit einer schwierigkeit von 3 eingestuft. Selber
-              erklaerBild.schwierigkeit = 3;
+              erklaerBild["schwierigkeit"] = 3;
 
               var $antworten = $(field).find(".addLerneinheitFragestellungInputAntworten-form-group");
-              erklaerBild.antworten = view.getAntwortenFromAntwortInputs($antworten);
+              erklaerBild["antworten"] = view.getAntwortenFromAntwortInputs($antworten);
 
               if(!view.isNoDataSelectedInDataForm(field, ".addLerneinheitFragestellungDataInput")){
                 var file = $(field).find(".addLerneinheitFragestellungDataInput").prop('files')[0];
                 model.getBase64(file, function(result){
                   var media = new Object();
-                  media.datei = result;
+                  media["datei"] = result;
 
                   //Für den Anfang sind diese Werte default gesetzt.
-                  media.typ = "Bild";
-                  media.dateiname = file.name;
-                  media.beschreibung = "";
-                  media.reihenfolge = -1;
+                  media["typ"] = "Bild";
+                  media["dateiname"] = file.name;
+                  media["beschreibung"] = "";
+                  media["reihenfolge"] = -1;
 
 
-                  erklaerBild.media = media;
+                  erklaerBild["media"] = media;
                   lerneinheit.erklaerBilder.push(erklaerBild);
-
+                  //console.log(JSON.stringify(erklaerBild));
                 });
               }else{
                 alert("BILD AUSWÄHLEN!!!");
@@ -111,17 +118,18 @@ jQuery(document).ready(function($) {
           console.log("ABSCHNITT!")
           var abschnitt = new Object();
           $.each(selector, function(i, field){
-            console.log(field);
+            //console.log(field);
 
             abschnitt.titel = $(field).find(".addLerneinheitTitelInput").val();
             abschnitt.inhalt = $(field).find(".addLerneinheitBeschreibungInput").val();
             abschnitt.reihenfolge = reihenfolge;
+            abschnitt.media = new Array();
 
             if(!view.isNoDataSelectedInDataForm(field, ".addLerneinheitAbschnittDataInput")){
 
               var file = $(field).find(".addLerneinheitAbschnittDataInput").prop('files')[0];
               model.getBase64(file, function(result){
-                console.log(abschnitt);
+                //console.log(abschnitt);
                 var media = new Object();
                 media.datei = result;
 
@@ -132,15 +140,24 @@ jQuery(document).ready(function($) {
                 media.reihenfolge = -1;
 
 
-                abschnitt.media = media;
+                abschnitt.media.push(media);
 
 
               });
+              lerneinheit.abschnitte.push(abschnitt);
+              // setTimeout(function(){
+              //   lerneinheit.abschnitte.push(abschnitt);
+              //   console.log("....---");
+              //   console.log(abschnitt.media);
+              //   console.log(JSON.stringify(abschnitt.media));
+              // }, 1000)
+
             }
 
+
+
           });
-          lerneinheit.abschnitte.push(abschnitt);
-          console.log(lerneinheit);
+
         }
 
 
@@ -154,7 +171,20 @@ jQuery(document).ready(function($) {
     // var image = new Image();
     // image.src = 'data:image/png;base64,iVBORw0K...';
     // document.body.appendChild(image);
-    console.log(lerneinheit.erklaerBild);
+    console.log("alerta");
+    console.log(lerneinheit);
+    console.log("alerta");
+
+    setTimeout(function(){
+      console.log(JSON.stringify(lerneinheit));
+      model.generateLerneinheitById(lerneinheit, 2);
+    }, 4000)
+
+
+
+    //console.log(lerneinheit);
+
+
   });
 
 
@@ -170,6 +200,7 @@ jQuery(document).ready(function($) {
     console.log(id);
 
     //ajaxFunctions.deleteLerneinheitById(id);
+    model.deleteLerneinheitById(id);
     guiFunctions.deleteElementById("deleteLerneinheitRow_"+id);
 
     event.preventDefault();

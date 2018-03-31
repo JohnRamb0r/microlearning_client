@@ -3,11 +3,27 @@ var modelLerneinheit = {
 
   //Generiert eine lerneinheit aus den eingegebenen Daten
   //noch nicht fertig programmiert, ist noch in der main.js
-  generateLerneinheit: function(){
+  generateLerneinheitById: function(lerneinheit, id){
+    $.ajax({
+      type: 'post',
+      url: 'http://localhost:8080/Lerneinheit/add/' + id,
+      data: JSON.stringify(lerneinheit),
+      contentType: "application/json; charset=utf-8",
+      traditional: true,
+      success: function(data) {
+        console.log("done");
+      },
+      error: function(jqXhr, textStatus, errorThrown) {
+        console.log(errorThrown);
+        console.log("errorThrown");
+      }
+    });
 
-    var data = $(".modal-body").children();
-
-    console.log(data[0].serializeFormJSON());
+    // var url = 'http://localhost:8080/Lerneinheit/add/' + id;
+    // $.post( url, lerneinheit)
+    //   .done(function( data ) {
+    //     alert( "Data Loaded: " + data );
+    //   });
 
   },
   generateAntworten: function(){
