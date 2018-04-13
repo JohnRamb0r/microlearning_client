@@ -16,8 +16,8 @@
   <div class="container my-container">
     <div class="page-header">
       <h3>Übersicht der Lerneinheiten von <span id="lehrender"></span></h3>
-      <div id="images"></div>
-      <button id="add">ADD</button>
+
+
     </div>
 
     <div>
@@ -33,24 +33,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
+
+
+
         </tbody>
       </table>
     </div>
@@ -137,7 +122,7 @@
       <div class="form-group">
        <label for="addLerneinheitAbschnittDataInput">Bildauswahl</label>
        <input type="file" accept="image/*" class="form-control-file addLerneinheitAbschnittDataInput" aria-describedby="fileHelp">
-       <small class="fileHelp" class="form-text text-muted">Wählen sie - falls benötigt - ein Bild aus, um es diesem Abschnitt hinzuzufügen. Geben Sie im Abschnittbeschreibung [image] an, um es zu platzieren.</small>
+       <small class="fileHelp" class="form-text text-muted">Wählen sie - falls benötigt - ein Bild aus, um es diesem Abschnitt hinzuzufügen.</small>
      </div>
 
 
@@ -167,7 +152,7 @@
       </div>
       <div class="form-group addLerneinheitFragestellungTextarea-form-group hide">
        <label for="addLerneinheitFragestellungTextarea">Antworten eingeben</label>
-       <textarea rows="10" class="form-control addLerneinheitFragestellungTextarea" placeholder="Den Lückentext hier eingeben. Die auszublendenen Wörter mit [[]] umklammern."></textarea>
+       <textarea rows="10" class="form-control addLerneinheitFragestellungTextarea" placeholder="Den Lückentext hier eingeben. Die auszublendenen Wörter mit <input data-answer='asdf'></input> angeben und bei 'asdf' die richtige Antwort vermerken."></textarea>
 
       </div>
       <div class="form-group addLerneinheitFragestellungDataInput-form-group hide">

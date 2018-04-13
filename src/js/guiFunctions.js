@@ -52,19 +52,19 @@ var guiFunctions = {
       var antworten = [];
       var antwort = new Object();
       var antwort = new Object();
-      antwort.isRichtig = undefined;
+      antwort.istRichtig = undefined;
       antwort.text = undefined;
 
       $.each($antworten.children(), function(i, field){
         $(field).children('input').each(function () {
           if($(this).hasClass("addLerneinheitFragestellungInputAntwortenCheckbox")){
-            antwort.isRichtig = $(this).is(":checked");
+            antwort.istRichtig = $(this).is(":checked");
           }
           else {
             antwort.text = this.value;
           }
           //Beide haben einen Wert, ready zum Pushen und dann wird es zurückgesetzt.
-          if(typeof antwort.isRichtig !== "undefined" && typeof antwort.text !== "undefined"){
+          if(typeof antwort.istRichtig !== "undefined" && typeof antwort.text !== "undefined"){
             antworten.push(antwort);
             antwort = new Object();
           }
@@ -101,7 +101,7 @@ var guiFunctions = {
         $.each(data, function (key, val) {
             $(".table").append("<tr id='deleteLerneinheitRow_" + val.id + "'><th scope='row'>" + val.id + "</th>" +
                 "<td>" + val.titel + "</td>" + "<td>" +
-                val.beschreibung + "</td>" + "<td><button data-lerneinheit-id='" + val.id + "' class='changeLerneinheit'>ÄNDERN</button></td>" +
+                val.beschreibung + "</td>" + "<td><button data-lerneinheit-id='" + val.id + "' class='changeLerneinheit' disabled>ÄNDERN</button></td>" +
                 "<td><button data-lerneinheit-id='" + val.id + "' class='deleteLerneinheit'>LÖSCHEN</button></td></tr>");
 
         });

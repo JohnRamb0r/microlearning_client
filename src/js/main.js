@@ -178,6 +178,7 @@ jQuery(document).ready(function($) {
     setTimeout(function(){
       console.log(JSON.stringify(lerneinheit));
       model.generateLerneinheitById(lerneinheit, 2);
+      //$(".close").click();
     }, 4000)
 
 
