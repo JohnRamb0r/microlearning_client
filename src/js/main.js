@@ -2,7 +2,6 @@
 //Controller
 jQuery(document).ready(function($) {
   "use strict";
-  //init();
 
   if(window.Prototype) {
     delete Object.prototype.toJSON;
@@ -14,12 +13,10 @@ jQuery(document).ready(function($) {
   var model = modelLerneinheit;
   var view = guiFunctions;
 
-//  modelLerneinheit.showAllLerneinheit();
-
+  //Lehreinheit vom Lehrer mit der ID 2 wird initialisiert
   view.init(2)
 
   //Erstellung der Lerneinheit - vorübergehend im Controller, wird noch in das Model übertragen.
-  //Noch nicht fertig programmiert, es müssen alle Fragetypen umgesetzt werden.
   $("#addLerneinheitSavebtn").click(function() {
 
     var data = $(".modal-body").children();//.serializeFormJSON();
@@ -153,27 +150,14 @@ jQuery(document).ready(function($) {
               // }, 1000)
 
             }
-
-
-
           });
 
         }
-
-
-        // alert("asdf");
         reihenfolge++;
          //console.log(i + " " +field.name + ":" + field.value + " " + field.id);
     });
 
-  //  model.generateLerneinheit();
-    // ajaxFunctions.showAllLerneinheit();
-    // var image = new Image();
-    // image.src = 'data:image/png;base64,iVBORw0K...';
-    // document.body.appendChild(image);
-    console.log("alerta");
-    console.log(lerneinheit);
-    console.log("alerta");
+
 
     setTimeout(function(){
       console.log(JSON.stringify(lerneinheit));

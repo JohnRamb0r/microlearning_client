@@ -19,9 +19,13 @@ var guiFunctions = {
         var html = $(htmlElement).html();
         $(appendToElement).append(html);
     },
+    //Fügt ein DataAttribute zu einem JQuery Element hinzu
+    // Parameter: 1. Name eines Attributes (String) - welches gesetzt werden soll, 2. den Datawert (String)  dem der 1. Parameter hinzugefügt werden soll. 3. Jquery Element (jQuery var) an dem die ersten beiden Parametern hinzugefügt werden sollen.
     addDataAttributeToElement: function (dataName, dataValue, $appendToElement){
       $appendToElement.attr(dataName, dataValue);
     },
+    //Fügt ein Test zu einem Element hinzu
+    // Parameter: 1. Text (String)  welches hinzugefügt werden soll, 2. ID/Class (String) eines HTML Element wo der 1. Parameter hinzugefügt werden soll.
     addTextToElement: function (text, appendToElement){
       $(appendToElement).append(text);
     },
@@ -42,15 +46,20 @@ var guiFunctions = {
         console.log(radiobuttonSelected);
         return radiobuttonSelected;
     },
+    //Gibt den data-fragetyp Wert zurück
+    //Parameter: JQuery Object von dem man den fragetyp Ermitteln möchte.
     getDataFragetyp: function($element){
       return $element.attr("data-fragetyp");
     },
+    //Löscht ein Element
+    //Parameter: JQuery Object eines zu löschenden Elements
     isNoDataSelectedInDataForm: function(field, classSelector){
       return $(field).find(classSelector).prop('files')[0]===undefined;
     },
+    //Gibt die Antworten Werte von einem JQuery Object als ObjectArray zurück.
+    //Parameter: Antworten (Jquery Objectelemente)
     getAntwortenFromAntwortInputs: function($antworten){
       var antworten = [];
-      var antwort = new Object();
       var antwort = new Object();
       antwort.istRichtig = undefined;
       antwort.text = undefined;
